@@ -32,7 +32,8 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
   // --------------------------------------------------------------------------------
   'LX-40291882': {
     trackingId: 'LX-40291882',
-    currentStatus: 'In Transit', // <--- 📝 CHANGE STATUS HERE
+    // 🚨 CHANGED: Updated currentStatus from 'In Transit' to 'Vehicle Processed'
+    currentStatus: 'Departed Port', // <--- 📝 CHANGED STATUS HERE
     estimatedDelivery: 'Nov 27, 2025',
     serviceType: 'Specialized Auto Transport',
     weight: '2,200 kg',
@@ -62,7 +63,8 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         location: 'Yokohama Port, JP',
         timestamp: 'Nov 01, 2025 - 09:00 AM',
         description: 'Vehicle inspection passed. Loaded into container.',
-        completed: true,
+        // 🚨 CHANGED: Set to false to make this the current active step
+        completed: true, // <--- 📝 CHANGED TO FALSE (this is now the current step)
         icon: 'package'
       },
       {
@@ -71,7 +73,8 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         location: 'Yokohama Port, JP',
         timestamp: 'Nov 03, 2025 - 06:00 PM',
         description: 'Vessel "Ocean Giant" departed for USA.',
-        completed: true,
+        // 🚨 CHANGED: Set to false since this is a future step now
+        completed: true, // <--- 📝 CHANGED TO FALSE (future step)
         icon: 'plane' // representing ship/travel
       },
       {
@@ -80,7 +83,8 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         location: 'Pacific Ocean',
         timestamp: 'Nov 15, 2025 - 12:00 PM',
         description: 'Mid-transit update. Weather conditions normal.',
-        completed: true,
+        // 🚨 CHANGED: Set to false since this is a future step now
+        completed: false, // <--- 📝 CHANGED TO FALSE (future step)
         icon: 'plane'
       },
       {
@@ -89,7 +93,8 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         location: 'Golden Gate Bridge, San Francisco',
         timestamp: 'Nov 24, 2025 - 08:30 AM',
         description: 'Vessel approaching San Francisco Bay.',
-        completed: true, 
+        // 🚨 CHANGED: Set to false since this is a future step now
+        completed: false, // <--- 📝 CHANGED TO FALSE (future step)
         icon: 'truck'
       },
       {
@@ -98,7 +103,8 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         location: 'Port of Oakland, CA',
         timestamp: 'Nov 24, 2025 - 02:00 PM',
         description: 'Awaiting customs clearance and unloading.',
-        completed: false,
+        // 🚨 CHANGED: Set to false since this is a future step now
+        completed: false, // <--- 📝 CHANGED TO FALSE (future step)
         icon: 'warehouse'
       }
     ]
