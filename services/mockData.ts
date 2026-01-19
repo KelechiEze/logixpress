@@ -33,12 +33,12 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
   'LX-55203941': {
     trackingId: 'LX-55203941',
     currentStatus: 'In Transit',
-    estimatedDelivery: 'Dec 05, 2025',
-    serviceType: 'International Priority Express',
+    estimatedDelivery: 'Nov 26, 2025 - 08:30 AM',
+    serviceType: 'Cross-Border Express',
     weight: '4.5 kg',
     dimensions: '35x25x20 cm',
     sender: {
-      name: 'Syria Export Logistics',
+      name: 'Syria Logistics',
       location: 'Damascus, Syria',
     },
     receiver: {
@@ -58,46 +58,37 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
     timeline: [
       {
         id: '1',
-        status: 'Package Picked Up',
-        location: 'Damascus, SY',
-        timestamp: 'Nov 25, 2025 - 10:30 AM',
-        description: 'Shipment collected from sender.',
+        status: 'Package Departed',
+        location: 'Damascus, Syria',
+        timestamp: 'Nov 25, 2025 - 09:00 PM',
+        description: 'Shipment has departed from the origin facility in Syria.',
         completed: true,
         icon: 'package'
       },
       {
         id: '2',
-        status: 'Export Clearance',
-        location: 'Damascus Hub, SY',
-        timestamp: 'Nov 26, 2025 - 04:15 PM',
-        description: 'Successfully cleared Syrian customs.',
+        status: 'Cross-Border Processing',
+        location: 'Border Control, TR',
+        timestamp: 'Nov 26, 2025 - 01:30 AM',
+        description: 'Successfully cleared border security and entered Turkey.',
         completed: true,
-        icon: 'warehouse'
+        icon: 'truck'
       },
       {
         id: '3',
-        status: 'Cross-Border Transit',
-        location: 'Kilis Border, TR',
-        timestamp: 'Nov 28, 2025 - 09:00 AM',
-        description: 'Entered Turkish territory. Processing at border control.',
+        status: 'In Transit to Hub',
+        location: 'Adana, Türkiye',
+        timestamp: 'Nov 26, 2025 - 04:00 AM',
+        description: 'Moving through the regional sorting network.',
         completed: true,
         icon: 'truck'
       },
       {
         id: '4',
-        status: 'In Transit',
-        location: 'Adana, Türkiye',
-        timestamp: 'Nov 29, 2025 - 11:45 AM',
-        description: 'En route to Izmir sorting facility.',
-        completed: true,
-        icon: 'truck'
-      },
-      {
-        id: '5',
-        status: 'Arriving at Sorting Hub',
-        location: 'Karabağlar, İzmir',
-        timestamp: 'Pending',
-        description: 'Expected arrival at local distribution center.',
+        status: 'Arrival at Destination',
+        location: 'İzmir, Türkiye',
+        timestamp: 'Nov 26, 2025 - 08:30 AM',
+        description: 'Scheduled arrival at destination facility for final delivery.',
         completed: false,
         icon: 'warehouse'
       }
