@@ -27,13 +27,90 @@ import { ShipmentData } from '../types';
 export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
   
   // --------------------------------------------------------------------------------
+  // SHIPMENT: Syria 🇸🇾 -> İzmir, Türkiye 🇹🇷
+  // TRACKING CODE: LX-55203941
+  // --------------------------------------------------------------------------------
+  'LX-55203941': {
+    trackingId: 'LX-55203941',
+    currentStatus: 'In Transit',
+    estimatedDelivery: 'Dec 05, 2025',
+    serviceType: 'International Priority Express',
+    weight: '4.5 kg',
+    dimensions: '35x25x20 cm',
+    sender: {
+      name: 'Syria Export Logistics',
+      location: 'Damascus, Syria',
+    },
+    receiver: {
+      name: 'Personal Delivery',
+      location: 'İzmir, Türkiye',
+      address: '9618 sok no 67 1 Limontepe izmir karabağlar'
+    },
+    items: [
+      { 
+        name: 'Personal Parcel', 
+        quantity: 1, 
+        weight: '4.5kg', 
+        category: 'General Goods',
+        image: 'https://images.unsplash.com/photo-1566576912906-2532f6b3db58?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+      }
+    ],
+    timeline: [
+      {
+        id: '1',
+        status: 'Package Picked Up',
+        location: 'Damascus, SY',
+        timestamp: 'Nov 25, 2025 - 10:30 AM',
+        description: 'Shipment collected from sender.',
+        completed: true,
+        icon: 'package'
+      },
+      {
+        id: '2',
+        status: 'Export Clearance',
+        location: 'Damascus Hub, SY',
+        timestamp: 'Nov 26, 2025 - 04:15 PM',
+        description: 'Successfully cleared Syrian customs.',
+        completed: true,
+        icon: 'warehouse'
+      },
+      {
+        id: '3',
+        status: 'Cross-Border Transit',
+        location: 'Kilis Border, TR',
+        timestamp: 'Nov 28, 2025 - 09:00 AM',
+        description: 'Entered Turkish territory. Processing at border control.',
+        completed: true,
+        icon: 'truck'
+      },
+      {
+        id: '4',
+        status: 'In Transit',
+        location: 'Adana, Türkiye',
+        timestamp: 'Nov 29, 2025 - 11:45 AM',
+        description: 'En route to Izmir sorting facility.',
+        completed: true,
+        icon: 'truck'
+      },
+      {
+        id: '5',
+        status: 'Arriving at Sorting Hub',
+        location: 'Karabağlar, İzmir',
+        timestamp: 'Pending',
+        description: 'Expected arrival at local distribution center.',
+        completed: false,
+        icon: 'warehouse'
+      }
+    ]
+  },
+
+  // --------------------------------------------------------------------------------
   // SHIPMENT 1: Tokyo 🇯🇵 -> San Francisco 🇺🇸
   // TRACKING CODE: LX-40291882
   // --------------------------------------------------------------------------------
   'LX-40291882': {
     trackingId: 'LX-40291882',
-    // 🚨 CHANGED: Updated currentStatus from 'In Transit' to 'Vehicle Processed'
-    currentStatus: 'Departed Port', // <--- 📝 CHANGED STATUS HERE
+    currentStatus: 'In Transit', 
     estimatedDelivery: 'Nov 27, 2025',
     serviceType: 'Specialized Auto Transport',
     weight: '2,200 kg',
@@ -63,8 +140,7 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         location: 'Yokohama Port, JP',
         timestamp: 'Nov 01, 2025 - 09:00 AM',
         description: 'Vehicle inspection passed. Loaded into container.',
-        // 🚨 CHANGED: Set to false to make this the current active step
-        completed: true, // <--- 📝 CHANGED TO FALSE (this is now the current step)
+        completed: true,
         icon: 'package'
       },
       {
@@ -73,9 +149,8 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         location: 'Yokohama Port, JP',
         timestamp: 'Nov 03, 2025 - 06:00 PM',
         description: 'Vessel "Ocean Giant" departed for USA.',
-        // 🚨 CHANGED: Set to false since this is a future step now
-        completed: true, // <--- 📝 CHANGED TO FALSE (future step)
-        icon: 'plane' // representing ship/travel
+        completed: true,
+        icon: 'plane'
       },
       {
         id: '3',
@@ -83,8 +158,7 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         location: 'Pacific Ocean',
         timestamp: 'Nov 15, 2025 - 12:00 PM',
         description: 'Mid-transit update. Weather conditions normal.',
-        // 🚨 CHANGED: Set to false since this is a future step now
-        completed: false, // <--- 📝 CHANGED TO FALSE (future step)
+        completed: true,
         icon: 'plane'
       },
       {
@@ -93,8 +167,7 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         location: 'Golden Gate Bridge, San Francisco',
         timestamp: 'Nov 24, 2025 - 08:30 AM',
         description: 'Vessel approaching San Francisco Bay.',
-        // 🚨 CHANGED: Set to false since this is a future step now
-        completed: false, // <--- 📝 CHANGED TO FALSE (future step)
+        completed: true, 
         icon: 'truck'
       },
       {
@@ -103,8 +176,7 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         location: 'Port of Oakland, CA',
         timestamp: 'Nov 24, 2025 - 02:00 PM',
         description: 'Awaiting customs clearance and unloading.',
-        // 🚨 CHANGED: Set to false since this is a future step now
-        completed: false, // <--- 📝 CHANGED TO FALSE (future step)
+        completed: false,
         icon: 'warehouse'
       }
     ]
@@ -116,7 +188,7 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
   // --------------------------------------------------------------------------------
   'LX-72819304': {
     trackingId: 'LX-72819304',
-    currentStatus: 'Delivered', // <--- 📝 CHANGE STATUS HERE
+    currentStatus: 'Delivered',
     estimatedDelivery: 'Delivered',
     serviceType: 'Ground Freight Express',
     weight: '85 kg',
@@ -176,7 +248,7 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
   // --------------------------------------------------------------------------------
   'LX-19283745': {
     trackingId: 'LX-19283745',
-    currentStatus: 'Pending', // <--- 📝 CHANGE STATUS HERE
+    currentStatus: 'Pending',
     estimatedDelivery: 'TBD',
     serviceType: 'Standard Shipping',
     weight: '2.5 kg',
@@ -234,7 +306,7 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
   // --------------------------------------------------------------------------------
   'LX-93021833': {
     trackingId: 'LX-93021833',
-    currentStatus: 'Exception', // <--- 📝 CHANGE STATUS HERE
+    currentStatus: 'Exception',
     estimatedDelivery: 'Delayed',
     serviceType: 'International Heavy Freight',
     weight: '150 kg',
