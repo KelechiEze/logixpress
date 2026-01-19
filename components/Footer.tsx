@@ -75,7 +75,7 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-gray-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-600 text-sm">Copyright 2025 LogiXpress by Reacthemes</p>
+            <p className="text-gray-600 text-sm">Copyright 2016 LogiXpress</p>
             <button 
                 onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}
                 className="bg-brand-orange p-3 rounded-full text-white hover:bg-orange-600 transition-colors"
