@@ -33,7 +33,7 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
   'LX-55203941': {
     trackingId: 'LX-55203941',
     currentStatus: 'In Transit',
-    estimatedDelivery: 'Nov 26, 2025 - 08:30 AM',
+    estimatedDelivery: 'Jan 19, 2026 - 08:30 AM',
     serviceType: 'Cross-Border Express',
     weight: '4.5 kg',
     dimensions: '35x25x20 cm',
