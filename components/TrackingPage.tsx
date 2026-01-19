@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Search, MapPin, Package, Truck, Calendar, ArrowRight, CheckCircle2, AlertTriangle, Box, Plane, Info, Globe } from 'lucide-react';
+import { Search, MapPin, Package, Truck, Calendar, ArrowRight, CheckCircle2, AlertTriangle, Box, Plane, Info, Globe, X, Scale, Layers, Check } from 'lucide-react';
 import { getShipment } from '../services/mockData';
-import { ShipmentData } from '../types';
+import { ShipmentData, Item } from '../types';
 
 export const TrackingPage: React.FC = () => {
   const [trackingId, setTrackingId] = useState('');
@@ -9,6 +9,7 @@ export const TrackingPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [searched, setSearched] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
   const handleTrack = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +25,7 @@ export const TrackingPage: React.FC = () => {
       if (data) {
         setShipment(data);
       } else {
-        setError('Tracking ID not found. Please check your code (e.g., LX-40291882) and try again.');
+        setError('Tracking ID not found. Please check your code (e.g., LX-55203941) and try again.');
       }
     } catch (err) {
       setError('An error occurred while tracking. Please try again.');
@@ -62,12 +63,8 @@ export const TrackingPage: React.FC = () => {
     }
   };
 
-  // Helper to get the latest location for the map
   const getCurrentLocation = (data: ShipmentData) => {
-      // Find the last event that is either completed or the current one being processed
-      // In this simple mock, we just take the last event in the timeline as the current state
       if (!data.timeline || data.timeline.length === 0) return data.sender.location;
-      
       const lastEvent = data.timeline[data.timeline.length - 1];
       return lastEvent.location;
   };
@@ -86,7 +83,7 @@ export const TrackingPage: React.FC = () => {
           <input
             type="text"
             className="block w-full pl-12 pr-32 py-5 bg-[#222] border border-gray-700 rounded-full leading-5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-transparent transition-all text-lg shadow-xl"
-            placeholder="e.g., LX-40291882"
+            placeholder="e.g., LX-55203941"
             value={trackingId}
             onChange={(e) => setTrackingId(e.target.value)}
           />
@@ -115,7 +112,6 @@ export const TrackingPage: React.FC = () => {
           
           {/* Top Info Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Status Card */}
             <div className="bg-[#222] rounded-2xl p-6 border border-gray-800 shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-5">
                 <Package className="w-32 h-32 text-white" />
@@ -133,10 +129,8 @@ export const TrackingPage: React.FC = () => {
               </p>
             </div>
 
-            {/* From/To Card */}
             <div className="bg-[#222] rounded-2xl p-6 border border-gray-800 shadow-2xl md:col-span-2 flex flex-col justify-center">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 relative px-4 md:px-8">
-                {/* Connector Line for Desktop */}
                 <div className="hidden md:block absolute left-20 right-20 top-[28px] h-0.5 bg-gray-800 -z-10">
                     <div 
                         className={`h-full bg-gradient-to-r from-brand-orange to-brand-orange transition-all duration-1000`} 
@@ -174,11 +168,8 @@ export const TrackingPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Timeline Column */}
             <div className="lg:col-span-2 space-y-8">
-               {/* Map Placeholder */}
                <div className="bg-[#222] rounded-2xl h-80 w-full overflow-hidden relative group border border-gray-800">
-                 {/* Live Map Iframe */}
                  <iframe 
                     width="100%" 
                     height="100%" 
@@ -211,7 +202,6 @@ export const TrackingPage: React.FC = () => {
                  </div>
                </div>
 
-               {/* Detailed Timeline */}
                <div className="bg-[#222] rounded-2xl p-8 border border-gray-800">
                   <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-2">
                       <Calendar className="w-5 h-5 text-brand-orange" />
@@ -220,15 +210,23 @@ export const TrackingPage: React.FC = () => {
                   <div className="relative border-l-2 border-gray-800 ml-3 space-y-10">
                     {shipment.timeline.map((event, index) => (
                         <div key={event.id} className="relative pl-10 group">
-                            <div className={`absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 transition-colors duration-300 ${event.completed ? 'bg-brand-orange border-brand-orange' : 'bg-[#222] border-gray-600'}`}></div>
+                            {/* Unique Tick Indicator */}
+                            <div className={`absolute -left-[13px] top-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-500 z-10 ${event.completed ? 'bg-brand-orange border-brand-orange shadow-[0_0_15px_rgba(255,87,34,0.5)]' : 'bg-[#1a1a1a] border-gray-700'}`}>
+                                {event.completed ? (
+                                    <Check className="w-3.5 h-3.5 text-white stroke-[4px] animate-fade-in" />
+                                ) : (
+                                    <div className={`w-2 h-2 rounded-full ${index === shipment.timeline.findIndex(e => !e.completed) ? 'bg-brand-orange animate-pulse' : 'bg-gray-700'}`}></div>
+                                )}
+                            </div>
+                            
                             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
                                 <div>
-                                    <h4 className={`text-lg font-bold ${event.completed || index === 0 ? 'text-white' : 'text-gray-500'}`}>{event.status}</h4>
+                                    <h4 className={`text-lg font-bold transition-colors duration-300 ${event.completed ? 'text-white' : 'text-gray-500'}`}>{event.status}</h4>
                                     <p className="text-gray-400 text-sm mt-1">{event.description}</p>
-                                    <p className="text-brand-orange text-xs mt-1 font-mono">{event.location}</p>
+                                    <p className="text-brand-orange text-xs mt-1 font-mono uppercase tracking-widest">{event.location}</p>
                                 </div>
                                 <div className="text-right flex flex-row sm:flex-col items-center sm:items-end gap-2 sm:gap-0 mt-2 sm:mt-0">
-                                     <div className={`p-2 rounded-lg inline-block mb-1 ${event.completed ? 'bg-gray-800 text-brand-orange' : 'bg-transparent text-gray-700'}`}>
+                                     <div className={`p-2 rounded-lg inline-block mb-1 transition-all duration-300 ${event.completed ? 'bg-brand-orange/10 text-brand-orange scale-110 shadow-sm' : 'bg-transparent text-gray-700'}`}>
                                         {getIcon(event.icon)}
                                      </div>
                                     <p className="text-xs text-gray-500 font-mono whitespace-nowrap">{event.timestamp}</p>
@@ -240,9 +238,7 @@ export const TrackingPage: React.FC = () => {
                </div>
             </div>
 
-            {/* Shipment Details Column */}
             <div className="space-y-8">
-                {/* Details List */}
                 <div className="bg-[#222] rounded-2xl p-6 border border-gray-800 sticky top-32">
                     <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-800">
                         <h3 className="text-lg font-bold text-white">Shipment Details</h3>
@@ -278,7 +274,11 @@ export const TrackingPage: React.FC = () => {
                     </h4>
                     <div className="space-y-3">
                         {shipment.items.map((item, idx) => (
-                            <div key={idx} className="bg-gray-800/30 border border-gray-700/50 p-3 rounded-lg flex gap-4 items-center hover:bg-gray-800/50 transition-colors">
+                            <div 
+                                key={idx} 
+                                className="bg-gray-800/30 border border-gray-700/50 p-3 rounded-lg flex gap-4 items-center hover:bg-gray-800/50 transition-colors group cursor-pointer"
+                                onClick={() => setSelectedItem(item)}
+                            >
                                 {item.image && (
                                     <div className="w-16 h-16 rounded-md overflow-hidden bg-white/5 flex-shrink-0 border border-gray-700">
                                         <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
@@ -288,8 +288,9 @@ export const TrackingPage: React.FC = () => {
                                     <p className="text-white text-sm font-medium">{item.name}</p>
                                     <p className="text-xs text-gray-500">{item.category} • {item.weight}</p>
                                 </div>
-                                <div className="text-right">
+                                <div className="text-right flex flex-col items-end gap-1">
                                     <span className="bg-white/10 text-white px-2 py-1 rounded text-xs font-bold">x{item.quantity}</span>
+                                    <Info className="w-4 h-4 text-gray-600 group-hover:text-brand-orange transition-colors" />
                                 </div>
                             </div>
                         ))}
@@ -307,6 +308,88 @@ export const TrackingPage: React.FC = () => {
              </div>
              <p className="text-gray-400 text-lg">Shipment details will appear here</p>
          </div>
+      )}
+
+      {/* Sleek Item Detail Modal */}
+      {selectedItem && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <div 
+                className="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity duration-300" 
+                onClick={() => setSelectedItem(null)}
+            ></div>
+            
+            <div className="bg-[#1a1a1a] border border-gray-800 rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden relative z-10 animate-fade-in-up">
+                {/* Close Button */}
+                <button 
+                    onClick={() => setSelectedItem(null)}
+                    className="absolute top-4 right-4 bg-white/10 hover:bg-brand-orange text-white p-2 rounded-full transition-all z-20 group"
+                >
+                    <X className="w-5 h-5 group-hover:scale-110" />
+                </button>
+
+                {/* Hero Content */}
+                <div className="relative h-64 overflow-hidden">
+                    <img 
+                        src={selectedItem.image || "https://images.unsplash.com/photo-1566576912906-2532f6b3db58?ixlib=rb-4.0.3&auto=format&fit=crop&w=1035&q=80"} 
+                        alt={selectedItem.name} 
+                        className="w-full h-full object-cover opacity-60"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] to-transparent"></div>
+                    <div className="absolute bottom-6 left-8">
+                        <span className="bg-brand-orange text-white text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-full mb-3 inline-block">
+                            Product Detail
+                        </span>
+                        <h2 className="text-3xl font-bold text-white leading-tight">{selectedItem.name}</h2>
+                    </div>
+                </div>
+
+                {/* Info Grid */}
+                <div className="p-8 space-y-8">
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-white/5 border border-white/10 p-4 rounded-2xl flex items-center gap-4 group hover:bg-white/10 transition-colors">
+                            <div className="w-10 h-10 rounded-xl bg-brand-orange/20 flex items-center justify-center text-brand-orange">
+                                <Scale className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Weight</p>
+                                <p className="text-white font-bold">{selectedItem.weight}</p>
+                            </div>
+                        </div>
+                        <div className="bg-white/5 border border-white/10 p-4 rounded-2xl flex items-center gap-4 group hover:bg-white/10 transition-colors">
+                            <div className="w-10 h-10 rounded-xl bg-brand-orange/20 flex items-center justify-center text-brand-orange">
+                                <Layers className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <p className="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Quantity</p>
+                                <p className="text-white font-bold">x{selectedItem.quantity}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="flex justify-between items-center py-3 border-b border-white/10">
+                            <span className="text-gray-400 text-sm">Category</span>
+                            <span className="text-white font-semibold">{selectedItem.category}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-3 border-b border-white/10">
+                            <span className="text-gray-400 text-sm">Status</span>
+                            <span className="text-green-500 font-semibold flex items-center gap-1">
+                                <CheckCircle2 className="w-4 h-4" /> Ready for Delivery
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="pt-2">
+                        <button 
+                            onClick={() => setSelectedItem(null)}
+                            className="w-full bg-brand-orange text-white font-bold py-4 rounded-2xl hover:bg-orange-600 transition-all flex items-center justify-center gap-2 group"
+                        >
+                            Return to Tracking <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
       )}
     </div>
   );

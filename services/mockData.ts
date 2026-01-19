@@ -48,19 +48,19 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
     },
     items: [
       { 
-        name: 'Personal Parcel', 
-        quantity: 1, 
-        weight: '4.5kg', 
-        category: 'General Goods',
-        image: 'https://images.unsplash.com/photo-1566576912906-2532f6b3db58?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
-      }
+      name: 'Standard Parcel Box', 
+      quantity: 1, 
+      weight: '15kg', 
+      category: 'General Goods',
+      image: '/sentbag.jpeg'
+    }
     ],
     timeline: [
       {
         id: '1',
         status: 'Package Departed',
         location: 'Damascus, Syria',
-        timestamp: 'Nov 25, 2025 - 09:00 PM',
+        timestamp: 'Jan 19, 2026 - 09:00 PM',
         description: 'Shipment has departed from the origin facility in Syria.',
         completed: true,
         icon: 'package'
@@ -69,7 +69,7 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         id: '2',
         status: 'Cross-Border Processing',
         location: 'Border Control, TR',
-        timestamp: 'Nov 26, 2025 - 01:30 AM',
+        timestamp: 'Jan 19, 2026 - 01:30 AM',
         description: 'Successfully cleared border security and entered Turkey.',
         completed: true,
         icon: 'truck'
@@ -78,7 +78,7 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         id: '3',
         status: 'In Transit to Hub',
         location: 'Adana, Türkiye',
-        timestamp: 'Nov 26, 2025 - 04:00 AM',
+        timestamp: 'Jan 19, 2026 - 04:00 AM',
         description: 'Moving through the regional sorting network.',
         completed: true,
         icon: 'truck'
@@ -87,7 +87,7 @@ export const MOCK_SHIPMENTS: Record<string, ShipmentData> = {
         id: '4',
         status: 'Arrival at Destination',
         location: 'İzmir, Türkiye',
-        timestamp: 'Nov 26, 2025 - 08:30 AM',
+        timestamp: 'Jan 20, 2026 - 08:30 AM',
         description: 'Scheduled arrival at destination facility for final delivery.',
         completed: false,
         icon: 'warehouse'
